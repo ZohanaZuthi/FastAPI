@@ -16,10 +16,19 @@ def root():
 def about():
     return {'title':{'this is the about page'}}
 
+
 @app.get('/blog')
-def blog(limit):
-    return {'range':f'the limit is {limit}'}
+def blog(limit,unpublished:bool):
+    if unpublished:
+        return {'range':f'the limit is {limit} ok'}
+    else:
+        return {'range':f'the limit is {limit} and unpublished is {unpublished}'}
+# @app.get('/blog')
+# def blog(limit):
+#     return {'range':f'the limit is {limit}'}
 # run http://127.0.0.1:8000/blog?limit=5
+
+
 @app.get('/blog/{id}')
 def id(id:int):
     #  if we dont put int that will be string
