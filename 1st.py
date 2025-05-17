@@ -1,41 +1,27 @@
 from fastapi import FastAPI
+from typing import Optional
 
-app=FastAPI()
-# return multiple values as dictionary
+app = FastAPI()
+
+# Root path
 @app.get('/')
 def root():
-    return {'name':'Nazifa', 'age':21}
-# http://127.0.0.1:8000/about if i type this which is not dfined yet
-# by default fastapi gives detail not found
+    return {'name': 'Nazifa', 'age': 21}
 
-#  now we are going to define about
-# @app is the path operator decorator 
-# here operator path
+# About path
 @app.get('/about')
-# path operation function
 def about():
-    return {'title':{'this is the about page'}}
+    return {'title': 'This is the about page'}
 
-
+# Blog path with query parameters
 @app.get('/blog')
-def blog(limit,unpublished:bool):
+def blog(limit: int = 9, unpublished: bool = True, sort: Optional[str] = None):
     if unpublished:
-        return {'range':f'the limit is {limit} ok'}
+        return {'range': f'The limit is {limit}, unpublished is True'}
     else:
-        return {'range':f'the limit is {limit} and unpublished is {unpublished}'}
-# @app.get('/blog')
-# def blog(limit):
-#     return {'range':f'the limit is {limit}'}
-# run http://127.0.0.1:8000/blog?limit=5
+        return {'range': f'The limit is {limit}, unpublished is False'}
 
-
+# Blog post with specific ID
 @app.get('/blog/{id}')
-def id(id:int):
-    #  if we dont put int that will be string
-    # fetching blog with id
-    return {'id':{id}}
-# go to http://127.0.0.1:8000/docs to see all the path that have been created
-#  got to http://127.0.0.1:8000/redoc to check all the path as web
-
-
-#  to run and reload uvicorn app:app --reload
+def get_blog_by_id(id: int):
+    return {'id': id}
